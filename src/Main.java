@@ -1,13 +1,31 @@
+import editor.command.Command;
+import editor.command.Editor;
+import editor.command.WriteCommand;
+import editor.decorator.BoldDecorator;
+import editor.decorator.ItalicDecorator;
+import editor.decorator.PlainText;
+import editor.decorator.TextComponent;
+import editor.observer.Logger;
+import editor.observer.StatusBar;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+public class Main {
+    public static void main(String[] args) {
+        Editor editor = new Editor();
+        editor.addObserver(new StatusBar());
+        editor.addObserver(new Logger());
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+        Command writeHello = new WriteCommand(editor, "Hello World");
+        writeHello.execute();
+
+        // Aplicando Decorators
+        TextComponent text = new PlainText(editor.getText());
+        text = new BoldDecorator(new ItalicDecorator(text));
+        System.out.println("Texto decorado: " + text.getText());
+
+        // Undo
+        writeHello.undo();
+        System.out.println("Texto após undo: " + editor.getText());
     }
 }
