@@ -88,8 +88,35 @@ Essa divisão segue o método de **separação de responsabilidades** (Single Re
 
 ## 📊 Diagrama de Caso de Uso
 
-*(Adicionar aqui o diagrama de caso de uso do editor, mostrando atores como “Usuário” e casos de uso como “Escrever Texto”, “Aplicar Estilo”, “Desfazer”, “Notificar Observadores”)*
+![Diagrama de Caso de usos](docs/diagrama-caso-uso.png)
 
+### O que o diagrama mostra
+- **Ator principal:** `Usuário` — representa quem interage com o sistema.
+- **Sistema:** `Editor de Texto` — o núcleo que executa as ações.
+- **Casos de uso:**
+  - **Escrever Texto** → ação principal do usuário.
+  - **Aplicar Estilo** → uso dos decoradores (Bold, Italic, etc.).
+  - **Desfazer Ação** → uso do Command Pattern (undo).
+  - **Copiar Texto** → poderia ser implementado como outro comando.
+  - **Notificar Observadores** → uso do Observer Pattern.
+- **Relacionamento include:** `Aplicar Estilo` inclui `Gerar Relatório`, mostrando que aplicar estilos pode ser parte de uma funcionalidade maior.
+---
+
+## 🧠 Diagrama de Classes UML
+
+![Diagrama de Classes UML](docs/diagrama-classes.png)
+
+### O que o diagrama mostra
+- **Observer:**
+  - `EditorObserver` (interface) → implementada por `StatusBar` e `Logger`.
+- **Decorator:**
+  - `TextComponent` (interface) → implementada por `PlainText`.
+  - `TextDecorator` (classe abstrata) → estendida por `BoldDecorator` e `ItalicDecorator`.
+- **Command:**
+  - `Command` (interface) → implementada por `WriteCommand`.
+- **Core:**
+  - `Editor` → mantém estado, histórico e observadores.
+  - `Main` → ponto de entrada da aplicação.
 ---
 
 ## 🚀 Execução
